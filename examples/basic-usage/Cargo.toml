@@ -1,0 +1,9 @@
+[package]
+name = "basic-usage"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pincon = { path = "../.." }
+pinocchio = { version = "0.10.1" }
+pinocchio-log = { version = "0.5.1" }

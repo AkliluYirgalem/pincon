@@ -1,0 +1,14 @@
+[package]
+name = "pincon"
+version = "0.1.0"
+edition = "2024"
+description = "Account validation macros for Pinocchio on Solana"
+
+[workspace]
+members = ["examples/basic-usage", "pincon-macros"]
+
+[dependencies]
+pincon-macros = { path = "pincon-macros" }
+
+[workspace.dependencies]
+pinocchio = "0.10.1"
