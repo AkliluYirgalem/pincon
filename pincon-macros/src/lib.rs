@@ -12,7 +12,6 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
 
     if let Data::Struct(data) = input.data {
         if let Fields::Named(fields) = data.fields {
-            println!("{:#?}", fields.named);
             for field in fields.named {
                 let field_name = &field.ident;
 
