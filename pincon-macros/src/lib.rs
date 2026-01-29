@@ -1,3 +1,4 @@
+use pinocchio::error::ProgramError;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{Data, DeriveInput, Fields, parse_macro_input};
@@ -11,6 +12,7 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
 
     if let Data::Struct(data) = input.data {
         if let Fields::Named(fields) = data.fields {
+            println!("{:#?}", fields.named);
             for field in fields.named {
                 let field_name = &field.ident;
 
@@ -19,13 +21,19 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                     if attr.path().is_ident("pincon") {
                         let _ = attr.parse_nested_meta(|meta| {
                             if meta.path.is_ident("signer") {
-                                // Add a check to our validation list
                                 validations.push(quote! {
                                     if !self.#field_name.is_signer() {
-                                        return Err(error::ProgramError::MissingRequiredSignature);
+                                        return Err(ProgramError::MissingRequiredSignature);
+                                    }
+                                });
+                            } else if meta.path.is_ident("mut") {
+                                validations.push(quote! {
+                                    if !self.#field_name.is_writable() {
+                                        return Err(ProgramError::Immutable);
                                     }
                                 });
                             }
+
                             Ok(())
                         });
                     }
@@ -43,5 +51,5 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
         }
     };
 
-    TokenStream::from(expanded)
+    expanded.into()
 }

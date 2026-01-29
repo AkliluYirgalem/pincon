@@ -1,10 +1,9 @@
 use pincon::InstructionAccounts;
-use pinocchio::{AccountView, Address, ProgramResult, entrypoint, error};
-use pinocchio_log::log;
+use pinocchio::{AccountView, Address, ProgramResult, entrypoint, error::ProgramError};
 
 #[derive(InstructionAccounts)]
 pub struct Initialize {
-    #[pincon(signer)]
+    #[pincon(mut, signer)]
     pub authority: AccountView,
     pub data_account: AccountView,
 }
