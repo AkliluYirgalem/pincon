@@ -24,7 +24,7 @@ fn test_basic_usage() {
         program_id: program_id,
         accounts: vec![
             AccountMeta::new(authority, true),
-            AccountMeta::new_readonly(data_account, false),
+            AccountMeta::new(data_account, false),
             AccountMeta::new(pinocchio_system::ID, false),
         ],
         data: Vec::new(),
