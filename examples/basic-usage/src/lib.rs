@@ -5,6 +5,7 @@ use pinocchio::{entrypoint, error::ProgramError, AccountView, Address, ProgramRe
 pub struct Initialize<'view> {
     #[pincon(mut, signer)]
     pub authority: &'view AccountView,
+    #[pincon(mut)]
     pub data_account: &'view AccountView,
     pub system_account: &'view AccountView,
 }
@@ -17,6 +18,8 @@ pub fn process_instruction(
     _instruction_data: &[u8],
 ) -> ProgramResult {
     let _ctx = Initialize::try_from(accounts)?;
+
+    // log!(_)
 
     Ok(())
 }
