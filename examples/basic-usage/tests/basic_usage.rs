@@ -9,7 +9,7 @@ use solana_sdk::{
 #[test]
 fn test_basic_usage() {
     let program_id = Address::new_unique();
-    let mollusk = Mollusk::new(&program_id, "/home/aklil/pincon/target/deploy/basic_usage");
+    let mollusk = Mollusk::new(&program_id, "../output/basic_usage");
 
     let authority = Address::new_unique();
     let data_account = Address::new_unique();
