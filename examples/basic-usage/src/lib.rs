@@ -1,19 +1,22 @@
 use pincon::InstructionAccounts;
-use pinocchio::{AccountView, Address, ProgramResult, entrypoint, error::ProgramError};
+use pinocchio::{entrypoint, error::ProgramError, AccountView, Address, ProgramResult};
 
 #[derive(InstructionAccounts)]
-pub struct Initialize {
+pub struct Initialize<'view> {
     #[pincon(mut, signer)]
-    pub authority: AccountView,
-    pub data_account: AccountView,
+    pub authority: &'view AccountView,
+    pub data_account: &'view AccountView,
+    pub system_account: &'view AccountView,
 }
 
 entrypoint!(process_instruction);
 
 pub fn process_instruction(
     _program_id: &Address,
-    _accounts: &[AccountView],
+    accounts: &[AccountView],
     _instruction_data: &[u8],
 ) -> ProgramResult {
+    let _ctx = Initialize::try_from(accounts)?;
+
     Ok(())
 }
