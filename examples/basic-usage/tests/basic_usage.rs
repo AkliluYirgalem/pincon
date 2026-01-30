@@ -1,9 +1,11 @@
-use mollusk_svm::{program, result::Check, Mollusk};
-use pinocchio::Address;
-use pinocchio_system;
-use solana_sdk::{
-    account,
-    instruction::{AccountMeta, Instruction},
+use {
+    mollusk_svm::{program, result::Check, Mollusk},
+    pinocchio::Address,
+    pinocchio_system,
+    solana_sdk::{
+        account,
+        instruction::{AccountMeta, Instruction},
+    },
 };
 
 #[test]

@@ -1,7 +1,9 @@
 // use pinocchio::error::ProgramError;
-use proc_macro::TokenStream;
-use quote::quote;
-use syn::{parse_macro_input, Data, DeriveInput, Fields};
+use {
+    proc_macro::TokenStream,
+    quote::quote,
+    syn::{parse_macro_input, Data, DeriveInput, Fields},
+};
 
 #[proc_macro_derive(InstructionAccounts, attributes(pincon))]
 pub fn instruction_accounts(input: TokenStream) -> TokenStream {
