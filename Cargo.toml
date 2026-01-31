@@ -5,7 +5,7 @@ edition = "2021"
 description = "Account validation macros for Pinocchio on Solana"
 
 [workspace]
-members = ["examples/basic-usage", "pincon-macros"]
+members = ["examples/basic-usage", "pincon-macros", "tests/signer"]
 
 [dependencies]
 pincon-macros = { path = "pincon-macros" }
