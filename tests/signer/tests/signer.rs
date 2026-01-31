@@ -1,7 +1,6 @@
 use {
     mollusk_svm::{result::Check, Mollusk},
-    pinocchio::error::ProgramError,
-    pinocchio::Address,
+    pinocchio::{error::ProgramError, Address},
     solana_sdk::{
         account,
         instruction::{AccountMeta, Instruction},
@@ -17,7 +16,7 @@ fn test_signer_success() {
     let accounts = vec![(authority, account::Account::default())];
 
     let instruction = Instruction {
-        program_id: program_id,
+        program_id,
         accounts: vec![AccountMeta::new(authority, true)],
         data: Vec::new(),
     };
@@ -34,7 +33,7 @@ fn test_signer_failure() {
     let accounts = vec![(authority, account::Account::default())];
 
     let instruction = Instruction {
-        program_id: program_id,
+        program_id,
         accounts: vec![AccountMeta::new(authority, false)],
         data: Vec::new(),
     };
