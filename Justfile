@@ -1,0 +1,30 @@
+NIGHTLY_TOOLCHAIN := "nightly-2026-01-23"
+
+# Build Solana test programs
+build-test-programs:
+    @cargo build-sbf --manifest-path tests/*/Cargo.toml
+
+# Run clippy checks
+clippy:
+	@cargo +{{NIGHTLY_TOOLCHAIN}} clippy --all-targets --all-features -- -D warnings
+
+# Auto-fix clippy issues
+clippy-fix:
+	@cargo +{{NIGHTLY_TOOLCHAIN}} clippy --all --all-features --all-targets --fix --allow-dirty --allow-staged -- -D warnings
+	
+# Check formatting
+format:
+	@cargo +{{NIGHTLY_TOOLCHAIN}} fmt --all -- --check
+
+# Fix formatting
+format-fix:
+	@cargo +{{NIGHTLY_TOOLCHAIN}} fmt --all
+
+# Test all feature combos
+hack:
+	@cargo hack check --feature-powerset --all-targets
+
+# Build then run tests
+test:
+	@just build-test-programs
+	@cargo test --manifest-path tests/*/Cargo.toml --all-features
