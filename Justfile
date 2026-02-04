@@ -3,7 +3,8 @@ SOLANA_VERSION := "3.0.13"
 
 # Build Solana test programs
 build-test-programs:
-    @cargo build-sbf --manifest-path tests/*/Cargo.toml
+	@cargo build-sbf --manifest-path tests/signer/Cargo.toml
+	@cargo build-sbf --manifest-path tests/writable/Cargo.toml
 
 # Run clippy checks
 clippy:
@@ -36,4 +37,5 @@ solana-version:
 # Build then run tests
 test:
 	@just build-test-programs
-	@cargo test --manifest-path tests/*/Cargo.toml --all-features
+	@cargo test --manifest-path tests/signer/Cargo.toml --all-features
+	@cargo test --manifest-path tests/writable/Cargo.toml --all-features
