@@ -8,6 +8,7 @@ on:
 
 jobs:
   clippy:
+    name: Clippy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,6 +27,7 @@ jobs:
         run: just clippy
 
   format:
+    name: Format
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -44,6 +46,7 @@ jobs:
         run: just format
 
   hack:
+    name: Check features
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -56,3 +59,20 @@ jobs:
         uses: taiki-e/install-action@cargo-hack
       - name: Run hack
         run: just hack
+  test:
+    name: Bulid and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get just
+        uses: extractions/setup-just@v2
+      - name: Get Solana version
+        id: solana
+        run: echo "version=$(just solana-version)" >> $GITHUB_OUTPUT
+      - uses: metaplex-foundation/actions/install-solana@v1
+        with:
+          cache: true
+          version: ${{ steps.solana.outputs.version }}
+      - name: Build and Test
+        run: just test
