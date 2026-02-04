@@ -1,4 +1,5 @@
 NIGHTLY_TOOLCHAIN := "nightly-2026-01-23"
+SOLANA_VERSION := "3.0.13"
 
 # Build Solana test programs
 build-test-programs:
@@ -27,7 +28,11 @@ hack:
 # Echo nightly version
 nightly-version:
 	@echo {{NIGHTLY_TOOLCHAIN}}
-	
+
+# Echo Solana version
+solana-version:
+	@echo {{SOLANA_VERSION}}
+
 # Build then run tests
 test:
 	@just build-test-programs
