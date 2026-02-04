@@ -39,7 +39,7 @@ jobs:
           uses: dtolnay/rust-toolchain@master
           with:
             toolchain: ${{ steps.nightly.outputs.version }}
-            components: format
+            components: rustfmt
         - name: Run format
           run: just format
-          
+
