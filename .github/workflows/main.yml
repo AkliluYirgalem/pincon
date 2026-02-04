@@ -1,0 +1,34 @@
+name: Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+    clippy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Get just
+              uses: extractions/setup-just@v2
+            - name: Get rust toolchain
+              id: nightly
+              run: echo "version=$(just nightly-version)" >> $GITHUB_OUTPUT
+            - name: Checkout rust-toolchain
+              uses: dtolnay/rust-toolchain@master
+              with:
+               toolchain: ${{ steps.nightly.outputs.version }}
+               components: rustfmt
+            - name: Run format
+              run: just format
+
+#   format:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: extractions/setup-just@v2
+#       - name: Run format
+#         run: just format

@@ -24,6 +24,10 @@ format-fix:
 hack:
 	@cargo hack check --feature-powerset --all-targets
 
+# Echo nightly version
+nightly-version:
+	@echo {{NIGHTLY_TOOLCHAIN}}
+	
 # Build then run tests
 test:
 	@just build-test-programs
