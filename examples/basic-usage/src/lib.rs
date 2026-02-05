@@ -4,7 +4,7 @@ use {
 };
 
 #[derive(InstructionAccounts)]
-pub struct Initialize<'view> {
+struct Initialize<'view> {
     #[pincon(mut, signer)]
     pub authority: &'view AccountView,
     #[pincon(mut)]
