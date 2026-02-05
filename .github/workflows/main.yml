@@ -7,6 +7,19 @@ on:
     branches: [main]
 
 jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get just
+        uses: extractions/setup-just@v2
+      - name: Get rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Run check
+        run: just check
+
   clippy:
     name: Clippy
     runs-on: ubuntu-latest

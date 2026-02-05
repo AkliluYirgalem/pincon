@@ -11,6 +11,10 @@ build-test-programs:
 clippy:
 	@cargo +{{NIGHTLY_TOOLCHAIN}} clippy --all-targets --all-features -- -D warnings
 
+# Run cargo check for errors
+check:
+	@cargo check --verbose
+	
 # Auto-fix clippy issues
 clippy-fix:
 	@cargo +{{NIGHTLY_TOOLCHAIN}} clippy --all --all-features --all-targets --fix --allow-dirty --allow-staged -- -D warnings
