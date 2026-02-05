@@ -8,60 +8,64 @@ use {
 #[proc_macro_derive(InstructionAccounts, attributes(pincon))]
 pub fn instruction_accounts(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
-    let name = input.ident;
+    let struct_ident = input.ident;
 
     let mut validations = Vec::new();
     let mut field_idents = Vec::new();
 
-    if let Data::Struct(data) = input.data {
-        if let Fields::Named(fields) = data.fields {
-            for field in fields.named {
-                if let Some(field_name) = &field.ident {
-                    field_idents.push(field_name.clone());
-                    for attr in &field.attrs {
-                        if attr.path().is_ident("pincon") {
-                            let _ = attr.parse_nested_meta(|meta| {
-                                if meta.path.is_ident("signer") {
-                                    validations.push(quote! {
-                                        if !self.#field_name.is_signer() {
-                                            return Err(ProgramError::MissingRequiredSignature);
-                                        }
-                                    });
-                                } else if meta.path.is_ident("mut") {
-                                    validations.push(quote! {
-                                        if !self.#field_name.is_writable() {
-                                            return Err(ProgramError::Immutable);
-                                        }
-                                    });
-                                } else if meta.path.is_ident("type") {
-                                    let _ = meta.value()?;
-                                    let path: syn::Path = meta.input.parse()?;
+    let Data::Struct(data) = input.data else {
+        return TokenStream::new();
+    };
 
-                                    if path.is_ident("native") {
-                                        let content;
-                                        syn::parenthesized!(content in meta.input);
+    let Fields::Named(fields) = data.fields else {
+        return TokenStream::new();
+    };
 
-                                        let inner_path: syn::Path = content.parse()?;
-                                        if inner_path.is_ident("system") {
-                                            validations.push(quote! {
-                                                if !pinocchio_system::check_id(self.#field_name.address()) {
-                                                    return Err(ProgramError::IncorrectProgramId);
-                                                }
-                                            });
-                                        }
+    for field in fields.named {
+        let field_ident = field.ident.unwrap();
+        field_idents.push(field_ident.clone());
+
+        for attr in &field.attrs {
+            if attr.path().is_ident("pincon") {
+                let _ = attr.parse_nested_meta(|meta| {
+                    if meta.path.is_ident("signer") {
+                        validations.push(quote! {
+                            if !self.#field_ident.is_signer() {
+                                return Err(ProgramError::MissingRequiredSignature);
+                            }
+                        });
+                    } else if meta.path.is_ident("mut") {
+                        validations.push(quote! {
+                            if !self.#field_ident.is_writable() {
+                                return Err(ProgramError::Immutable);
+                            }
+                        });
+                    } else if meta.path.is_ident("type") {
+                        let _ = meta.value()?;
+                        let path: syn::Path = meta.input.parse()?;
+
+                        if path.is_ident("native") {
+                            let content;
+                            syn::parenthesized!(content in meta.input);
+
+                            let inner_path: syn::Path = content.parse()?;
+                            if inner_path.is_ident("system") {
+                                validations.push(quote! {
+                                    if !pinocchio_system::check_id(self.#field_ident.address()) {
+                                        return Err(ProgramError::IncorrectProgramId);
                                     }
-                                }
-                                Ok(())
-                            });
+                                });
+                            }
                         }
                     }
-                }
+                    Ok(())
+                });
             }
         }
     }
 
     let expanded = quote! {
-        impl <'view> core::convert::TryFrom<&'view [AccountView]> for #name <'view>  {
+        impl <'view> core::convert::TryFrom<&'view [AccountView]> for #struct_ident <'view>  {
             type Error = ProgramError;
 
             fn try_from(accounts: &'view [AccountView]) -> Result<Self, Self::Error> {
@@ -75,12 +79,11 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                 };
 
                 accounts.check_constraints()?;
-
                 Ok(accounts)
             }
         }
 
-        impl <'view> #name <'view> {
+        impl <'view> #struct_ident <'view> {
             fn check_constraints(&self) -> Result<(), ProgramError> {
                 #(#validations)*
                 Ok(())
