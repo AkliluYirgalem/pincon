@@ -4,11 +4,9 @@ use {
 };
 
 #[derive(InstructionAccounts)]
-pub struct Initialize<'view> {
-    #[pincon(mut, signer)]
-    pub authority: &'view AccountView,
-    #[pincon(mut)]
-    pub data_account: &'view AccountView,
+pub struct Noop<'view> {
+    #[pincon(signer)]
+    pub user: &'view AccountView,
     #[pincon(type = native(system))]
     pub system_account: &'view AccountView,
 }
@@ -20,10 +18,6 @@ pub fn process_instruction(
     accounts: &[AccountView],
     _instruction_data: &[u8],
 ) -> ProgramResult {
-    let _ctx: Initialize<'_> = Initialize::try_from(accounts)?;
-    _ctx.authority.address();
-
-    // log!(_)
-
+    let _ctx = Noop::try_from(accounts)?;
     Ok(())
 }

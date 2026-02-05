@@ -18,7 +18,6 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
             for field in fields.named {
                 if let Some(field_name) = &field.ident {
                     field_idents.push(field_name.clone());
-
                     for attr in &field.attrs {
                         if attr.path().is_ident("pincon") {
                             let _ = attr.parse_nested_meta(|meta| {
@@ -34,6 +33,23 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                                             return Err(ProgramError::Immutable);
                                         }
                                     });
+                                } else if meta.path.is_ident("type") {
+                                    let _ = meta.value()?;
+                                    let path: syn::Path = meta.input.parse()?;
+
+                                    if path.is_ident("native") {
+                                        let content;
+                                        syn::parenthesized!(content in meta.input);
+
+                                        let inner_path: syn::Path = content.parse()?;
+                                        if inner_path.is_ident("system") {
+                                            validations.push(quote! {
+                                                if !pinocchio_system::check_id(self.#field_name.address()) {
+                                                    return Err(ProgramError::IncorrectProgramId);
+                                                }
+                                            });
+                                        }
+                                    }
                                 }
                                 Ok(())
                             });
@@ -54,18 +70,18 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                     return Err(ProgramError::NotEnoughAccountKeys);
                 };
 
-                let inst = Self {
+                let accounts = Self {
                     #(#field_idents,)*
                 };
 
-                inst.check_constraints()?;
+                accounts.check_constraints()?;
 
-                Ok(inst)
+                Ok(accounts)
             }
         }
 
         impl <'view> #name <'view> {
-            pub fn check_constraints(&self) -> Result<(), ProgramError> {
+            fn check_constraints(&self) -> Result<(), ProgramError> {
                 #(#validations)*
                 Ok(())
             }
