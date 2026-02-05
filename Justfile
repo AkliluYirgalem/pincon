@@ -13,7 +13,7 @@ clippy:
 
 # Run cargo check for errors
 check:
-	@cargo check --verbose --locked
+	@cargo check --verbose
 	
 # Auto-fix clippy issues
 clippy-fix:
