@@ -9,15 +9,7 @@ pub struct Initialize<'view> {
     pub authority: &'view AccountView,
     #[pincon(mut)]
     pub data_account: &'view AccountView,
-    pub system_account: &'view AccountView,
-}
-
-#[derive(InstructionAccounts)]
-pub struct Initialize2<'view> {
-    #[pincon(mut, signer)]
-    pub authority: &'view AccountView,
-    #[pincon(mut)]
-    pub data_account: &'view AccountView,
+    #[pincon(type = native(system))]
     pub system_account: &'view AccountView,
 }
 
@@ -29,6 +21,7 @@ pub fn process_instruction(
     _instruction_data: &[u8],
 ) -> ProgramResult {
     let _ctx: Initialize<'_> = Initialize::try_from(accounts)?;
+    _ctx.authority.address();
 
     // log!(_)
 
