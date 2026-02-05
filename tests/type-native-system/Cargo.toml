@@ -1,0 +1,20 @@
+[package]
+name = "test-type-native-system"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+pincon = { path = "../../" }
+pinocchio = { workspace = true }
+pinocchio-system = { version = "0.5.0" }
+
+[dev-dependencies]
+mollusk-svm = { version = "0.10.1" }
+solana-sdk = { version = "3.0.0" }
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = ['cfg(target_os, values("solana"))']
