@@ -41,7 +41,7 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                             }
                         });
                     } else if meta.path.is_ident("type") {
-                        let _ = meta.value()?;
+                        meta.value()?; // Consume =
                         let path: syn::Path = meta.input.parse()?;
 
                         if path.is_ident("native") {
@@ -51,11 +51,40 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                             let inner_path: syn::Path = content.parse()?;
                             if inner_path.is_ident("system") {
                                 validations.push(quote! {
-                                    if !pinocchio_system::check_id(self.#field_ident.address()) {
+                                    let system_program_address = Address::from_str_const("11111111111111111111111111111111");
+                                    if self.#field_ident.address()!= &system_program_address {
                                         return Err(ProgramError::IncorrectProgramId);
                                     }
                                 });
-                            }
+                            } else if inner_path.is_ident("vote") {
+                                validations.push(quote! {
+                                    let vote_program_address = Address::from_str_const("Vote111111111111111111111111111111111111111");
+                                    if self.#field_ident.address()!= &vote_program_address {
+                                        return Err(ProgramError::IncorrectProgramId);
+                                    }
+                                });
+                            } else if inner_path.is_ident("stake") {
+                                validations.push(quote! {
+                                    let stake_program_address = Address::from_str_const("Stake11111111111111111111111111111111111111");
+                                    if self.#field_ident.address()!= &stake_program_address {
+                                        return Err(ProgramError::IncorrectProgramId);
+                                    }
+                                });
+                            } else if inner_path.is_ident("config") {
+                                validations.push(quote! {
+                                    let config_program_address = Address::from_str_const("Config1111111111111111111111111111111111111");
+                                    if self.#field_ident.address()!= &config_program_address {
+                                        return Err(ProgramError::IncorrectProgramId);
+                                    }
+                                });
+                            } else if inner_path.is_ident("compute_budget") {
+                                validations.push(quote! {
+                                    let compute_budget_program_address = Address::from_str_const("ComputeBudget111111111111111111111111111111");
+                                    if self.#field_ident.address()!= &compute_budget_program_address {
+                                        return Err(ProgramError::IncorrectProgramId);
+                                    }
+                                });
+                            }                           
                         }
                     }
                     Ok(())
