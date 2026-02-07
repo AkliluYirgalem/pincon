@@ -3315,6 +3315,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "test-type-native-vote"
+version = "0.0.0"
+dependencies = [
+ "mollusk-svm",
+ "pincon",
+ "pinocchio",
+ "pinocchio-system",
+ "solana-sdk",
+]
+
+[[package]]
 name = "test-writable"
 version = "0.0.0"
 dependencies = [
