@@ -3304,6 +3304,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "test-type-native-stake"
+version = "0.0.0"
+dependencies = [
+ "mollusk-svm",
+ "pincon",
+ "pinocchio",
+ "pinocchio-system",
+ "solana-sdk",
+]
+
+[[package]]
 name = "test-type-native-system"
 version = "0.0.0"
 dependencies = [
