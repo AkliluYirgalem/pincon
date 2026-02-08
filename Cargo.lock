@@ -3304,6 +3304,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "test-type-native-compute-budget"
+version = "0.0.0"
+dependencies = [
+ "mollusk-svm",
+ "pincon",
+ "pinocchio",
+ "pinocchio-system",
+ "solana-sdk",
+]
+
+[[package]]
 name = "test-type-native-config"
 version = "0.0.0"
 dependencies = [
