@@ -10,7 +10,10 @@ use {
 #[test]
 fn test_type_native_compute_budget_success() {
     let program_id = Address::new_unique();
-    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_type_native_compute_budget");
+    let mollusk = Mollusk::new(
+        &program_id,
+        "../../target/deploy/test_type_native_compute_budget",
+    );
 
     let user = Address::new_unique();
     let vote_account = Address::from_str_const("ComputeBudget111111111111111111111111111111");
@@ -34,7 +37,10 @@ fn test_type_native_compute_budget_success() {
 #[test]
 fn test_type_native_compute_budget_failure() {
     let program_id = Address::new_unique();
-    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_type_native_compute_budget");
+    let mollusk = Mollusk::new(
+        &program_id,
+        "../../target/deploy/test_type_native_compute_budget",
+    );
 
     let user = Address::new_unique();
     let vote_account = Address::new_unique();
