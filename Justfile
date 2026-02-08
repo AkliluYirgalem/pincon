@@ -4,6 +4,7 @@ SOLANA_VERSION := "3.0.13"
 # Build Solana test programs
 build-test-programs:
 	@cargo build-sbf --manifest-path tests/signer/Cargo.toml
+	@cargo build-sbf --manifest-path tests/type-native-config/Cargo.toml
 	@cargo build-sbf --manifest-path tests/type-native-stake/Cargo.toml
 	@cargo build-sbf --manifest-path tests/type-native-system/Cargo.toml
 	@cargo build-sbf --manifest-path tests/type-native-vote/Cargo.toml
@@ -45,6 +46,7 @@ solana-version:
 test:
 	@just build-test-programs
 	@cargo test --manifest-path tests/signer/Cargo.toml --all-features
+	@cargo test --manifest-path tests/type-native-config/Cargo.toml --all-features
 	@cargo test --manifest-path tests/type-native-stake/Cargo.toml --all-features
 	@cargo test --manifest-path tests/type-native-system/Cargo.toml --all-features
 	@cargo test --manifest-path tests/type-native-vote/Cargo.toml --all-features
