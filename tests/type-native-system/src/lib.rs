@@ -7,7 +7,7 @@ use {
 pub struct Noop<'view> {
     #[pincon(signer)]
     pub user: &'view AccountView,
-    #[pincon(type = native(system))]
+    #[pincon(native = system)]
     pub system_account: &'view AccountView,
 }
 
