@@ -9,7 +9,7 @@ struct Initialize<'view> {
     pub authority: &'view AccountView,
     #[pincon(mut)]
     pub data_account: &'view AccountView,
-    #[pincon(type = native(system))]
+    #[pincon(native = system)]
     pub system_account: &'view AccountView,
 }
 

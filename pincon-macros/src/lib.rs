@@ -22,7 +22,7 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
     };
 
     for field in fields.named {
-        let field_ident = field.ident.unwrap();
+        let field_ident = field.ident.unwrap(); // Because We are expecting named structs.
         field_idents.push(field_ident.clone());
 
         for attr in &field.attrs {
@@ -40,51 +40,45 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                                 return Err(ProgramError::Immutable);
                             }
                         });
-                    } else if meta.path.is_ident("type") {
+                    } else if meta.path.is_ident("native") {
                         meta.value()?; // Consume =
-                        let path: syn::Path = meta.input.parse()?;
+                        let account_type: syn::Path = meta.input.parse()?;
 
-                        if path.is_ident("native") {
-                            let content;
-                            syn::parenthesized!(content in meta.input);
-
-                            let inner_path: syn::Path = content.parse()?;
-                            if inner_path.is_ident("system") {
-                                validations.push(quote! {
-                                    let system_program_address = Address::from_str_const("11111111111111111111111111111111");
-                                    if self.#field_ident.address()!= &system_program_address {
-                                        return Err(ProgramError::IncorrectProgramId);
-                                    }
-                                });
-                            } else if inner_path.is_ident("vote") {
-                                validations.push(quote! {
-                                    let vote_program_address = Address::from_str_const("Vote111111111111111111111111111111111111111");
-                                    if self.#field_ident.address()!= &vote_program_address {
-                                        return Err(ProgramError::IncorrectProgramId);
-                                    }
-                                });
-                            } else if inner_path.is_ident("stake") {
-                                validations.push(quote! {
-                                    let stake_program_address = Address::from_str_const("Stake11111111111111111111111111111111111111");
-                                    if self.#field_ident.address()!= &stake_program_address {
-                                        return Err(ProgramError::IncorrectProgramId);
-                                    }
-                                });
-                            } else if inner_path.is_ident("config") {
-                                validations.push(quote! {
-                                    let config_program_address = Address::from_str_const("Config1111111111111111111111111111111111111");
-                                    if self.#field_ident.address()!= &config_program_address {
-                                        return Err(ProgramError::IncorrectProgramId);
-                                    }
-                                });
-                            } else if inner_path.is_ident("compute_budget") {
-                                validations.push(quote! {
-                                    let compute_budget_program_address = Address::from_str_const("ComputeBudget111111111111111111111111111111");
-                                    if self.#field_ident.address()!= &compute_budget_program_address {
-                                        return Err(ProgramError::IncorrectProgramId);
-                                    }
-                                });
-                            }
+                        if account_type.is_ident("system") {
+                            validations.push(quote! {
+                                let system_program_address = Address::from_str_const("11111111111111111111111111111111");
+                                if self.#field_ident.address()!= &system_program_address {
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
+                        } else if account_type.is_ident("vote") {
+                            validations.push(quote! {
+                                let vote_program_address = Address::from_str_const("Vote111111111111111111111111111111111111111");
+                                if self.#field_ident.address()!= &vote_program_address {
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
+                        } else if account_type.is_ident("stake") {
+                            validations.push(quote! {
+                                let stake_program_address = Address::from_str_const("Stake11111111111111111111111111111111111111");
+                                if self.#field_ident.address()!= &stake_program_address {
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
+                        } else if account_type.is_ident("config") {
+                            validations.push(quote! {
+                                let config_program_address = Address::from_str_const("Config1111111111111111111111111111111111111");
+                                if self.#field_ident.address()!= &config_program_address {
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
+                        } else if account_type.is_ident("compute_budget") {
+                            validations.push(quote! {
+                                let compute_budget_program_address = Address::from_str_const("ComputeBudget111111111111111111111111111111");
+                                if self.#field_ident.address()!= &compute_budget_program_address {
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
                         }
                     }
                     Ok(())
