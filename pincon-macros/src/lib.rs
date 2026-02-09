@@ -92,7 +92,6 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
             type Error = ProgramError;
 
             fn try_from(accounts: &'view [AccountView]) -> Result<Self, Self::Error> {
-                // The let-else pattern for destructuring
                 let [#(#field_idents,)* ..] = accounts else {
                     return Err(ProgramError::NotEnoughAccountKeys);
                 };
