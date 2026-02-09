@@ -22,7 +22,7 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
     };
 
     for field in fields.named {
-        let field_ident = field.ident.unwrap();
+        let field_ident = field.ident.unwrap(); // Because We are expecting named structs.
         field_idents.push(field_ident.clone());
 
         for attr in &field.attrs {
