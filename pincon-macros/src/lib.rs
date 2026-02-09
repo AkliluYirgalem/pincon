@@ -79,7 +79,7 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                                     return Err(ProgramError::IncorrectProgramId);
                                 }
                             });
-                        }                                            
+                        }
                     }
                     Ok(())
                 });
