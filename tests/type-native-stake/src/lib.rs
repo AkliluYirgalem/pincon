@@ -8,7 +8,7 @@ pub struct Noop<'view> {
     #[pincon(signer)]
     pub user: &'view AccountView,
     #[pincon(type = native(stake))]
-    pub vote_account: &'view AccountView,
+    pub stake_account: &'view AccountView,
 }
 
 entrypoint!(process_instruction);
