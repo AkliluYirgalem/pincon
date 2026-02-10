@@ -21,9 +21,6 @@ pub fn process_instruction(
     _instruction_data: &[u8],
 ) -> ProgramResult {
     let _ctx: Initialize<'_> = Initialize::try_from(accounts)?;
-    _ctx.authority.address();
-
-    // log!(_)
 
     Ok(())
 }
