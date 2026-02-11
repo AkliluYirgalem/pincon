@@ -10,7 +10,7 @@ use {
 #[test]
 fn test_writable_success() {
     let program_id = Address::new_unique();
-    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_writable");
+    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_constraint_writable");
 
     let authority = Address::new_unique();
     let new_account = Address::new_unique();
@@ -34,7 +34,7 @@ fn test_writable_success() {
 #[test]
 fn test_writable_failure() {
     let program_id = Address::new_unique();
-    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_writable");
+    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_constraint_writable");
 
     let authority = Address::new_unique();
     let new_account = Address::new_unique();

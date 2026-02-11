@@ -10,7 +10,7 @@ use {
 #[test]
 fn test_signer_success() {
     let program_id = Address::new_unique();
-    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_signer");
+    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_constraint_signer");
 
     let authority = Address::new_unique();
     let accounts = vec![(authority, account::Account::default())];
@@ -27,7 +27,7 @@ fn test_signer_success() {
 #[test]
 fn test_signer_failure() {
     let program_id = Address::new_unique();
-    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_signer");
+    let mollusk = Mollusk::new(&program_id, "../../target/deploy/test_constraint_signer");
 
     let authority = Address::new_unique();
     let accounts = vec![(authority, account::Account::default())];
