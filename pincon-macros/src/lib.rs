@@ -40,7 +40,7 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                                 return Err(ProgramError::Immutable);
                             }
                         });
-                    } else if meta.path.is_ident("native") {
+                    } else if meta.path.is_ident("program") {
                         meta.value()?; // Consume =
                         let account_type: syn::Path = meta.input.parse()?;
 
