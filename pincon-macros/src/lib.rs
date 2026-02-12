@@ -87,6 +87,20 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                                     return Err(ProgramError::IncorrectProgramId);
                                 }
                             });
+                        } else if account_type.get_ident().to_token_stream().to_string().to_lowercase() == "tokenkeg" {
+                            validations.push(quote! {
+                                let tokenkeg = Address::from_str_const("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+                                if self.#field_ident.address()!= &tokenkeg{
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
+                        } else if account_type.get_ident().to_token_stream().to_string().to_lowercase() == "tokenz" {
+                            validations.push(quote! {
+                                let tokenz = Address::from_str_const("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
+                                if self.#field_ident.address()!= &tokenz{
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
                         }
                     }
                     Ok(())

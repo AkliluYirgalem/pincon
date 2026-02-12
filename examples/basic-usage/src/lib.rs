@@ -11,6 +11,10 @@ struct Initialize<'view> {
     pub data_account: &'view AccountView,
     #[pincon(program = token)]
     pub token_program: &'view AccountView,
+    #[pincon(program = tokenkeg)]
+    pub tokenkeg_program: &'view AccountView,
+    #[pincon(program = tokenz)]
+    pub tokenz_program: &'view AccountView,
     #[pincon(program = system)]
     pub system_account: &'view AccountView,
 }
