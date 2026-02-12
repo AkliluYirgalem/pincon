@@ -3412,6 +3412,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "test-constraint-program-tokenkeg"
+version = "0.0.0"
+dependencies = [
+ "mollusk-svm",
+ "pincon",
+ "pinocchio",
+ "pinocchio-system",
+ "solana-sdk",
+]
+
+[[package]]
+name = "test-constraint-program-tokenz"
+version = "0.0.0"
+dependencies = [
+ "mollusk-svm",
+ "pincon",
+ "pinocchio",
+ "pinocchio-system",
+ "solana-sdk",
+]
+
+[[package]]
 name = "test-constraint-program-vote"
 version = "0.0.0"
 dependencies = [
