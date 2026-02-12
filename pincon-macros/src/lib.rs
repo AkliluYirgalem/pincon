@@ -1,7 +1,7 @@
 // use pinocchio::error::ProgramError;
 use {
     proc_macro::TokenStream,
-    quote::quote,
+    quote::{quote, ToTokens},
     syn::{parse_macro_input, Data, DeriveInput, Fields},
 };
 
@@ -76,6 +76,14 @@ pub fn instruction_accounts(input: TokenStream) -> TokenStream {
                             validations.push(quote! {
                                 let compute_budget_program_address = Address::from_str_const("ComputeBudget111111111111111111111111111111");
                                 if self.#field_ident.address()!= &compute_budget_program_address {
+                                    return Err(ProgramError::IncorrectProgramId);
+                                }
+                            });
+                        } else if account_type.get_ident().to_token_stream().to_string().to_lowercase() == "token" {
+                            validations.push(quote! {
+                                let tokenkeg = Address::from_str_const("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+                                let tokenz = Address::from_str_const("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
+                                if self.#field_ident.address()!= &tokenkeg && self.#field_ident.address()!= &tokenz{
                                     return Err(ProgramError::IncorrectProgramId);
                                 }
                             });

@@ -7,6 +7,7 @@ build-test-programs:
 	@cargo build-sbf --manifest-path tests/constraint-program-config/Cargo.toml
 	@cargo build-sbf --manifest-path tests/constraint-program-stake/Cargo.toml
 	@cargo build-sbf --manifest-path tests/constraint-program-system/Cargo.toml
+	@cargo build-sbf --manifest-path tests/constraint-program-token/Cargo.toml
 	@cargo build-sbf --manifest-path tests/constraint-program-vote/Cargo.toml
 	@cargo build-sbf --manifest-path tests/constraint-signer/Cargo.toml
 	@cargo build-sbf --manifest-path tests/constraint-writable/Cargo.toml
@@ -50,6 +51,7 @@ test:
 	@cargo test --manifest-path tests/constraint-program-config/Cargo.toml --all-features
 	@cargo test --manifest-path tests/constraint-program-stake/Cargo.toml --all-features
 	@cargo test --manifest-path tests/constraint-program-system/Cargo.toml --all-features
+	@cargo test --manifest-path tests/constraint-program-token/Cargo.toml --all-features
 	@cargo test --manifest-path tests/constraint-program-vote/Cargo.toml --all-features
 	@cargo test --manifest-path tests/constraint-signer/Cargo.toml --all-features
 	@cargo test --manifest-path tests/constraint-writable/Cargo.toml --all-features
