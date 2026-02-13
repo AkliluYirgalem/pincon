@@ -11,10 +11,6 @@ struct Initialize<'view> {
     pub data_account: &'view AccountView,
     #[pincon(program = token)]
     pub token_program: &'view AccountView,
-    #[pincon(program = tokenkeg)]
-    pub tokenkeg_program: &'view AccountView,
-    #[pincon(program = tokenz)]
-    pub tokenz_program: &'view AccountView,
     #[pincon(program = system)]
     pub system_account: &'view AccountView,
 }
@@ -26,7 +22,7 @@ pub fn process_instruction(
     accounts: &[AccountView],
     _instruction_data: &[u8],
 ) -> ProgramResult {
-    let _ctx= Initialize::try_from(accounts)?;
+    let _ctx = Initialize::try_from(accounts)?;
 
     Ok(())
 }
