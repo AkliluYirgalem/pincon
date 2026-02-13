@@ -26,7 +26,7 @@ pub fn process_instruction(
     accounts: &[AccountView],
     _instruction_data: &[u8],
 ) -> ProgramResult {
-    let _ctx: Initialize<'_> = Initialize::try_from(accounts)?;
+    let _ctx= Initialize::try_from(accounts)?;
 
     Ok(())
 }
